@@ -1,0 +1,120 @@
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+RewriteBase /staging/2300/
+RewriteRule ^index\.php$ - [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /staging/2300/index.php [L]
+</IfModule>
+# BEGIN NFD Htaccess
+# Managed by Newfold Htaccess Manager v1.0.0 (armatsoftware.com)
+# STATE sha256: c24da795108d7034d0ec2553e9c817d90460524ac17b93877647f70f9e9948fc applied: 2025-11-19T21:51:49Z
+
+# BEGIN Newfold CF Optimization Header
+<IfModule mod_rewrite.c>
+	RewriteEngine On
+	# Skip setting for admin/API routes
+	RewriteCond %{REQUEST_URI} !/wp-admin/       [NC]
+	RewriteCond %{REQUEST_URI} !/wp-login\.php   [NC]
+	RewriteCond %{REQUEST_URI} !/wp-json/        [NC]
+	RewriteCond %{REQUEST_URI} !/xmlrpc\.php     [NC]
+	RewriteCond %{REQUEST_URI} !/admin-ajax\.php [NC]
+	# Skip if the exact cookie and value are already present
+	RewriteCond %{HTTP_COOKIE} !(^|;\s*)nfd\-enable\-cf\-opt\=63a6825d27cab0f204d3b602 [NC]
+	# Set env var if we passed all conditions
+	RewriteRule .* - [E=CF_OPT:1]
+</IfModule>
+<IfModule mod_headers.c>
+	# Set cookie only if env var is present (i.e., exact cookie not found)
+	Header set Set-Cookie "nfd-enable-cf-opt=63a6825d27cab0f204d3b602; path=/; Max-Age=86400; HttpOnly" env=CF_OPT
+</IfModule>
+# END Newfold CF Optimization Header
+
+# BEGIN Newfold Skip 404 Handling for Static Files
+<IfModule mod_rewrite.c>
+	RewriteEngine On
+	RewriteCond %{REQUEST_FILENAME} !-f
+	RewriteCond %{REQUEST_FILENAME} !-d
+	RewriteCond %{REQUEST_URI} !(robots\.txt|ads\.txt|[a-z0-9_\-]*sitemap[a-z0-9_\.\-]*\.(xml|xsl|html)(\.gz)?)
+	RewriteCond %{REQUEST_URI} \.(css|htc|less|js|js2|js3|js4|html|htm|rtf|rtx|txt|xsd|xsl|xml|asf|asx|wax|wmv|wmx|avi|avif|avifs|bmp|class|divx|doc|docx|eot|exe|gif|gz|gzip|ico|jpg|jpeg|jpe|webp|json|mdb|mid|midi|mov|qt|mp3|m4a|mp4|m4v|mpeg|mpg|mpe|webm|mpp|otf|_otf|odb|odc|odf|odg|odp|ods|odt|ogg|ogv|pdf|png|pot|pps|ppt|pptx|ra|ram|svg|svgz|swf|tar|tif|tiff|ttf|ttc|_ttf|wav|wma|wri|woff|woff2|xla|xls|xlsx|xlt|xlw|zip)$ [NC]
+	RewriteRule .* - [L]
+</IfModule>
+# END Newfold Skip 404 Handling for Static Files
+# END NFD Htaccess
+
+# BEGIN Really Simple Security No Index
+# The directives (lines) between "BEGIN Really Simple Security No Index" and "END Really Simple Security No Index" are
+# dynamically generated, and should only be modified via WordPress filters.
+# Any changes to the directives between these markers will be overwritten.
+# END Really Simple Security No Index
+# BEGIN WordPress
+# The directives (lines) between "BEGIN WordPress" and "END WordPress" are
+# dynamically generated, and should only be modified via WordPress filters.
+# Any changes to the directives between these markers will be overwritten.
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+RewriteBase /staging/2300/
+RewriteRule ^index\.php$ - [L]
+# NFD PATCH nfd.skip404.static BEGIN
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_URI} !(robots\.txt|ads\.txt|[a-z0-9_\-]*sitemap[a-z0-9_\.\-]*\.(xml|xsl|html)(\.gz)?)
+RewriteCond %{REQUEST_URI} \.(css|htc|less|js|js2|js3|js4|html|htm|rtf|rtx|txt|xsd|xsl|xml|asf|asx|wax|wmv|wmx|avi|avif|avifs|bmp|class|divx|doc|docx|eot|exe|gif|gz|gzip|ico|jpg|jpeg|jpe|webp|json|mdb|mid|midi|mov|qt|mp3|m4a|mp4|m4v|mpeg|mpg|mpe|webm|mpp|otf|_otf|odb|odc|odf|odg|odp|ods|odt|ogg|ogv|pdf|png|pot|pps|ppt|pptx|ra|ram|svg|svgz|swf|tar|tif|tiff|ttf|ttc|_ttf|wav|wma|wri|woff|woff2|xla|xls|xlsx|xlt|xlw|zip)$ [NC]
+RewriteRule .* - [L]
+# NFD PATCH nfd.skip404.static END
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /staging/2300/index.php [L]
+</IfModule>
+
+# END WordPress
+
+# BEGIN HttpHeaders
+# The directives (lines) between "BEGIN HttpHeaders" and "END HttpHeaders" are
+# dynamically generated, and should only be modified via WordPress filters.
+# Any changes to the directives between these markers will be overwritten.
+<IfModule mod_headers.c>
+  Header always set X-Content-Type-Options "nosniff"
+  <FilesMatch "\.(php|html)$">
+    Header set X-Frame-Options "DENY"
+    Header set Strict-Transport-Security "max-age=31536000" env=HTTPS
+    Header set Content-Security-Policy "default-src 'self'; script-src 'self' blob: https://stats.wp.com https://cdnjs.cloudflare.com https://ajax.googleapis.com https://s0.wp.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://s0.wp.com; img-src 'self' data: https://i0.wp.com  https://pixel.wp.com  https://secure.gravatar.com; connect-src 'self' https://stats.wp.com; font-src 'self' data: https://fonts.gstatic.com https://s0.wp.com; form-action 'self'; frame-ancestors 'none'; frame-src 'self' https://widgets.wp.com https://wordpress.com; base-uri 'self'"
+    Header set Cross-Origin-Resource-Policy "same-site"
+  </FilesMatch>
+</IfModule>
+# END HttpHeaders
+# BEGIN HttpHeadersAuth
+# The directives (lines) between "BEGIN HttpHeadersAuth" and "END HttpHeadersAuth" are
+# dynamically generated, and should only be modified via WordPress filters.
+# Any changes to the directives between these markers will be overwritten.
+# END HttpHeadersAuth
+# BEGIN HttpHeadersCompression
+# The directives (lines) between "BEGIN HttpHeadersCompression" and "END HttpHeadersCompression" are
+# dynamically generated, and should only be modified via WordPress filters.
+# Any changes to the directives between these markers will be overwritten.
+# END HttpHeadersCompression
+# BEGIN HttpHeadersContentType
+# The directives (lines) between "BEGIN HttpHeadersContentType" and "END HttpHeadersContentType" are
+# dynamically generated, and should only be modified via WordPress filters.
+# Any changes to the directives between these markers will be overwritten.
+# END HttpHeadersContentType
+# BEGIN HttpHeadersExpires
+# The directives (lines) between "BEGIN HttpHeadersExpires" and "END HttpHeadersExpires" are
+# dynamically generated, and should only be modified via WordPress filters.
+# Any changes to the directives between these markers will be overwritten.
+# END HttpHeadersExpires
+# BEGIN HttpHeadersCookieSecurity
+# The directives (lines) between "BEGIN HttpHeadersCookieSecurity" and "END HttpHeadersCookieSecurity" are
+# dynamically generated, and should only be modified via WordPress filters.
+# Any changes to the directives between these markers will be overwritten.
+<IfModule mod_headers.c>
+  Header always edit Set-Cookie (.*) "$1;Secure"
+</IfModule>
+# END HttpHeadersCookieSecurity
+# BEGIN HttpHeadersTiming
+# The directives (lines) between "BEGIN HttpHeadersTiming" and "END HttpHeadersTiming" are
+# dynamically generated, and should only be modified via WordPress filters.
+# Any changes to the directives between these markers will be overwritten.
+# END HttpHeadersTiming
